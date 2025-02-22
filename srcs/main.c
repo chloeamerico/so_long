@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/21 20:38:29 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:35:43 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,44 +30,6 @@ int	destroy(t_game *game)
 	exit (0);
 	return (0);
 }
-
-//keysym = identifiant de chaque touche du clavier
-//la fonction explique ce qui sera fait quand une touche sera pressee
-int	keypressed(int keysym, t_game *game)
-{
-	printf("Pressed key : %d\n", keysym);
-	if (keysym == XK_Escape)
-		destroy(game);
-	return (0);
-}
-
-// //fonction qui permet de fermer la fenetre en appuyant sur ESC
-// int keypressed2(int keysym, t_data *data)
-// {
-// 	if (keysym == XK_Escape)
-// 		destroy(data);
-// 	printf("Pressed key : %d\n", keysym);
-// 	return (0);
-// }
-
-// int	main(void)
-// {
-// 	t_data	data;
-	
-// 	data.mlx_ptr = mlx_init();
-// 	if (!data.mlx_ptr)
-// 		return (1);
-// 	data.win_ptr = mlx_new_window(data.mlx_ptr, 1920, 1080, "test"); //pour creer une fenetre
-// 	if (!data.win_ptr)
-// 	{
-// 		free(data.mlx_ptr);
-// 		return (1);
-// 	}
-// 	mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, keypressed, &data);
-// 	mlx_hook(data.win_ptr, DestroyNotify, StructureNotifyMask, &destroy, &data);
-// 	mlx_loop(data.mlx_ptr);
-// 	return (0);
-// }
 
 int	main(int argc, char **argv)
 {
@@ -94,10 +56,11 @@ int	main(int argc, char **argv)
 	width = 0;
 	height = 0;
 	while (game.map[height])
+	{
+		if ((int) ft_strlen(game.map[height]) > width)
+			width = (int) ft_strlen(game.map[height]) - 1;
 		height++;
-	while (game.map[width])
-		width++;
-	printf("%d -- %d\n", width, height); // ERREUR A FIX ICI LECTURE DE LA HAUTEUR ET LARGEUR
+	}
 //on cree la fenetre
 	game.win_ptr = mlx_new_window(game.mlx_ptr, width * 64, height * 64, "so_long"); //pour creer une fenetre
 	if (!game.win_ptr)

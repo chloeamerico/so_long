@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:15:55 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/21 18:44:44 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:36:25 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@
 /* STRUCTURES                                                                 */
 /* ************************************************************************** */
 
-typedef struct s_data
-{
-	void *mlx_ptr;
-	void *win_ptr;
-} t_data;
+// typedef struct s_data
+// {
+// 	void *mlx_ptr;
+// 	void *win_ptr;
+// } t_data;
 
 
 //va stocker toutes les infos necessaires au jeu

@@ -1,74 +1,68 @@
-NAME		=	so_long
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
+#    Updated: 2025/02/22 16:37:09 by camerico         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC		  	=	cc
-FLAG		=	-Werror -Wall -Wextra -g3
+NAME = so_long
 
-LIBFT_PATH	=	./libft/
-LIBFT_FILE	=	libft.a
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -I.
 
-MLX_PATH	=	./minilibx-linux/
-MLX_FILE	=	libmlx.a
-MLX_FLAG	=	-lX11 -lXext
-MLX_EX		=	$(MLX_LIB) $(MLX_FLAG)
-
-LIBFT_LIB	=	$(addprefix $(LIBFT_PATH), $(LIBFT_FILE))
-MLX_LIB		=	$(addprefix $(MLX_PATH), $(MLX_FILE))
-
-INC_DIR		=	.
-SRC_DIR		=	srcs/
+# dossiers
+LIBFT_DIR 	=	libft/
+MLX_DIR		=	minilibx-linux/
+SRCS_DIR	=	srcs/
 OBJ_DIR		=	obj/
 
-# Colors
-DEF_COLOR	=	\033[0;39m
-GRAY		=	\033[0;90m
-RED			=	\033[0;91m
-GREEN		=	\033[0;92m
-YELLOW		=	\033[0;93m
-BLUE		=	\033[0;94m
-MAGENTA		=	\033[0;95m
-CYAN		=	\033[0;96m
-WHITE		=	\033[0;97m
+SRCS = main.c \
+	create_map.c \
+	mouvement.c \
 
-SRCS		=	main.c 			\
-				create_map.c	\
+HEADER = so_long.h
 
-SRC		 	=	$(addprefix $(SRC_DIR), $(SRCS))
-OBJ		 	=	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
+SRCS_SOLONG 	=	$(addprefix $(SRCS_DIR), $(SRCS))
+OBJS_SOLONG 	= 	$(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
 
+# ajout de MLX
+MLX 	= 	$(MLX_DIR)/libmlx.a
+MLXFLAGS = 	-L$(MLX_DIR) -lmlx -lXext -lX11
+
+# ajout de la libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+# compilation
 all: $(NAME)
 
-.c.o:
-	$(CC) $(FLAG) -c $< -o $@
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
-lib:
-	@make -sC $(LIBFT_PATH)
+$(MLX):
+	make -C $(MLX_DIR)
 
-mlx:
-	@make -sC $(MLX_PATH)
-
-$(NAME): lib mlx $(OBJ_DIR) $(OBJ)
-	$(CC) $(FLAG) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIBFT_PATH) -lft $(MLX_EX)
-
-axel: $(OBJ_DIR) $(OBJ)
-	$(CC) $(FLAG) -o $(NAME) $(OBJ) -I$(INC_DIR) -L$(LIBFT_PATH) -lft $(MLX_EX)
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(FLAG) -I$(INC_DIR) -c $< -o $@
+$(NAME): $(LIBFT) $(MLX) $(OBJ_DIR) $(OBJS_SOLONG)
+	$(CC) $(CFLAGS) $(OBJS_SOLONG) $(MLXFLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)/core
-	@mkdir -p $(OBJ_DIR)/map
-	@mkdir -p $(OBJ_DIR)/render
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ_DIR)%.o: $(SRCS_DIR)%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -I$(MLX_DIR) -I$(LIBFT_DIR) -c $< -o $@
 
 clean:
-	@make clean -sC $(LIBFT_PATH)
-	@make clean -sC $(MLX_PATH)
-	@rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
+	make clean -C $(LIBFT_DIR)
+	make clean -C $(MLX_DIR)
 
 fclean: clean
-	@rm -f $(NAME)
-	@make fclean -C $(LIBFT_PATH)
+	rm -f $(NAME)
+	make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/21 20:07:02 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:55:53 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	load_sprites(t_game *game)
 		
 }
 
+// ouvre le fichier, lit la map ligne par ligne, et la transforme en tableau
 char	**load_map(char *filename)
 {
 	int	fd;
