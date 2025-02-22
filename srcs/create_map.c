@@ -6,24 +6,24 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/22 16:55:53 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:26:36 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	load_sprites(t_game *game)
+void	load_sprites(t_game *game, t_texture *texture)
 {
 	int	width;
 	int	height;
 
 	width = 64;
 	height = 64;
-	game->img_wall = mlx_xpm_file_to_image(game->mlx_ptr, "texture/mur.xpm", &width, &height);
-	game->img_collectible = mlx_xpm_file_to_image(game->mlx_ptr, "texture/piece.xpm", &width, &height);
-	game->img_exit = mlx_xpm_file_to_image(game->mlx_ptr, "texture/exit.xpm", &width, &height);
-	game->img_floor = mlx_xpm_file_to_image(game->mlx_ptr, "texture/vide.xpm", &width, &height);
-	game->img_player = mlx_xpm_file_to_image(game->mlx_ptr, "texture/pacman.xpm", &width, &height);
+	texture->img_wall = mlx_xpm_file_to_image(game->mlx_ptr, "texture/mur.xpm", &width, &height);
+	texture->img_collectible = mlx_xpm_file_to_image(game->mlx_ptr, "texture/piece.xpm", &width, &height);
+	texture->img_exit = mlx_xpm_file_to_image(game->mlx_ptr, "texture/exit.xpm", &width, &height);
+	texture->img_floor = mlx_xpm_file_to_image(game->mlx_ptr, "texture/vide.xpm", &width, &height);
+	texture->img_player = mlx_xpm_file_to_image(game->mlx_ptr, "texture/pacman.xpm", &width, &height);
 		
 }
 
@@ -55,27 +55,27 @@ char	**load_map(char *filename)
 	return (map);
 }
 // va associe a chaque char l'image correspondante
-void	put_image (t_game *game, char c, int x, int y)
+void	put_image (t_game *game, char c, int x, int y, t_texture *texture)
 {
 	void	*img;
 
 	img = NULL;
 	if (c == '1')
-		img = game->img_wall;
+		img = texture->img_wall;
 	else if (c == '0')
-		img = game->img_floor;
+		img = texture->img_floor;
 	else if (c == 'C')
-		img = game->img_collectible;
+		img = texture->img_collectible;
 	else if (c == 'E')
-		img = game->img_exit;
+		img = texture->img_exit;
 	else if (c == 'P')
-		img = game->img_player;
+		img = texture->img_player;
 	if (img) // si img n'est pas NULL on affiche l'image
 		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, img, x * 64, y * 64);
 }
 
 // fonction pour afficher la map
-void display_map(t_game *game)
+void display_map(t_game *game, t_texture *texture)
 {
 	int	x; //variables pour parcourir la map
 	int	y;
@@ -86,7 +86,7 @@ void display_map(t_game *game)
 		x = 0;
 		while (game->map[y][x] && game->map[y][x] != '\n') //tant qu'il y a un char et qu'il est != de '\n'
 		{
-			put_image(game, game->map[y][x], x, y);
+			put_image(game, game->map[y][x], x, y, texture);
 			x++;
 		}
 		y++;
