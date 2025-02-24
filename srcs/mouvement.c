@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/22 20:03:15 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:13:54 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 //keysym = identifiant de chaque touche du clavier
 //la fonction explique ce qui sera fait quand une touche sera pressee
-int	ESC(int keysym, t_game *game)
-{
-	printf("Pressed key : %d\n", keysym);
-	if (keysym == XK_Escape)
-		destroy(game);
-	return (0);
-}
+// int	ESC(int keysym, t_game *game)
+// {
+// 	printf("Pressed key : %d\n", keysym);
+// 	if (keysym == XK_Escape)
+// 		destroy(game);
+// 	return (0);
+// }
 
 void	UP(t_game *game)
 {
@@ -36,9 +36,10 @@ void	UP(t_game *game)
 	{
 		game->collectible_left--;
 	}
-	game->map[y - 1][x] = 'P';
 	game->map[y][x] = '0';
+	game->map[y - 1][x] = 'P';
 	game->player_y = y - 1;
+	game->nb_mvmt++;
 }
 
 void	DOWN(t_game *game)
@@ -52,12 +53,11 @@ void	DOWN(t_game *game)
 	if (game->map[y + 1][x] == '1')
         return;
 	if (game->map[y + 1][x] == 'C')
-	{
 		game->collectible_left--;
-	}
-	game->map[y + 1][x] = 'P';
 	game->map[y][x] = '0';
+	game->map[y + 1][x] = 'P';
 	game->player_y = y + 1;
+	game->nb_mvmt++;
 }
 
 void	LEFT(t_game *game)
@@ -71,12 +71,11 @@ void	LEFT(t_game *game)
 	if (game->map[y][x - 1] == '1')
         return;
 	if (game->map[y][x - 1] == 'C')
-	{
 		game->collectible_left--;
-	}
-	game->map[y][x - 1] = 'P';
 	game->map[y][x] = '0';
+	game->map[y][x - 1] = 'P';
 	game->player_x = x - 1;
+	game->nb_mvmt++;
 }
 
 void	RIGHT(t_game *game)
@@ -90,17 +89,22 @@ void	RIGHT(t_game *game)
 	if (game->map[y][x + 1] == '1')
         return;
 	if (game->map[y][x + 1] == 'C')
-	{
 		game->collectible_left--;
-	}
-	game->map[y][x + 1] = 'P';
 	game->map[y][x] = '0';
+	game->map[y][x + 1] = 'P';
 	game->player_x = x + 1;
+	game->nb_mvmt++;
 }
 
-void	mouvements(int keysym, t_game *game)
-{	
-	if (keysym == 'w' || keysym == 'W')
+//associe une action a chaque touches pressees
+//keysym = identifiant de chaque touche du clavier
+ int	key_hook(int keysym, t_game *game)
+{
+	static int	prev_mvmt = 0;
+
+	if (keysym == XK_Escape)
+		destroy(game);
+	else if (keysym == 'w' || keysym == 'W')
 		UP(game);
 	else if (keysym == 's' || keysym == 'S')
 		DOWN(game);
@@ -108,6 +112,13 @@ void	mouvements(int keysym, t_game *game)
 		LEFT(game);
 	else if (keysym == 'd' || keysym == 'D')
 		RIGHT(game);
+	if (prev_mvmt < game->nb_mvmt)
+	{
+		ft_printf("Number of mouvments : %d\n", game->nb_mvmt);
+		prev_mvmt = game->nb_mvmt;
+	}
+	display_map(game, game->texture);
+	return (0);
 }
 	
 	// 	if (case[x][y - 1] == SOL ou COLL)

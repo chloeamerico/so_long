@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/22 17:26:36 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:51:11 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	load_sprites(t_game *game, t_texture *texture)
 	texture->img_exit = mlx_xpm_file_to_image(game->mlx_ptr, "texture/exit.xpm", &width, &height);
 	texture->img_floor = mlx_xpm_file_to_image(game->mlx_ptr, "texture/vide.xpm", &width, &height);
 	texture->img_player = mlx_xpm_file_to_image(game->mlx_ptr, "texture/pacman.xpm", &width, &height);
-		
 }
 
 // ouvre le fichier, lit la map ligne par ligne, et la transforme en tableau
@@ -54,6 +53,7 @@ char	**load_map(char *filename)
 	close(fd);
 	return (map);
 }
+
 // va associe a chaque char l'image correspondante
 void	put_image (t_game *game, char c, int x, int y, t_texture *texture)
 {
@@ -72,7 +72,9 @@ void	put_image (t_game *game, char c, int x, int y, t_texture *texture)
 		img = texture->img_player;
 	if (img) // si img n'est pas NULL on affiche l'image
 		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, img, x * 64, y * 64);
+	return;
 }
+
 
 // fonction pour afficher la map
 void display_map(t_game *game, t_texture *texture)
@@ -80,12 +82,18 @@ void display_map(t_game *game, t_texture *texture)
 	int	x; //variables pour parcourir la map
 	int	y;
 
+	mlx_clear_window(game->mlx_ptr, game->win_ptr);
 	y = 0; //commence a la premiere ligne
 	while (game->map[y]) //tant qu'il y a une ligne
 	{
 		x = 0;
 		while (game->map[y][x] && game->map[y][x] != '\n') //tant qu'il y a un char et qu'il est != de '\n'
 		{
+			if (game->map[y][x] == 'P')
+			{
+				game->player_x = x;
+				game->player_y = y;
+			}
 			put_image(game, game->map[y][x], x, y, texture);
 			x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:15:55 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/22 18:35:32 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:57:30 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@
 // 	void *win_ptr; 
 // } t_data;
 
+typedef struct s_texture
+{
+	void 		*img_wall;
+	void 		*img_floor;
+	void		*img_collectible;
+	void		*img_exit;
+	void		*img_player;
+} t_texture;
+
 
 //va stocker toutes les infos necessaires au jeu
 typedef struct s_game
@@ -54,16 +63,9 @@ typedef struct s_game
 	int			player_x; 			//position x du payer
 	int			player_y; 			//position y du player
 	int			collectible_left; 	//nb de collectible qu'il reste a ramasser
+	int			nb_mvmt;
+	t_texture	*texture;
 } t_game;
-
-typedef struct s_texture
-{
-	void 		*img_wall;
-	void 		*img_floor;
-	void		*img_collectible;
-	void		*img_exit;
-	void		*img_player;
-} t_texture;
 
 /* ************************************************************************** */
 /* PROTO                                                                      */
@@ -76,6 +78,7 @@ void	load_sprites(t_game *game, t_texture *texture);
 char	**load_map(char *filename);
 void	put_image (t_game *game, char c, int x, int y, t_texture *texture);
 void display_map(t_game *game, t_texture *texture);
+int	key_hook(int keysym, t_game *game);
 
 /* ************************************************************************** */
 /* DEBUG                                                                      */

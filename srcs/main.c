@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/22 17:30:47 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:27:48 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	destroy(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	t_texture	texture;
+	// t_game	texture;
 	int width;
 	int	height;
 	
@@ -69,10 +69,13 @@ int	main(int argc, char **argv)
 		free(game.map);
 		return (1);
 	}
-	load_sprites(&game, &texture); // on charge les sprites
-	display_map(&game, &texture); // on affiche la carte
+	game.texture = malloc(sizeof(t_texture));
+	if (!game.texture)
+		return (1);
+	load_sprites(&game, game.texture); // on charge les sprites
+	display_map(&game, game.texture); // on affiche la carte
 //on gere les evenements de clavier et fermeture de la fenetre;
-	mlx_hook(game.win_ptr, KeyRelease, KeyReleaseMask, ESC, &game);
+	mlx_hook(game.win_ptr, KeyPress, KeyPressMask, key_hook, &game);
 	mlx_hook(game.win_ptr, DestroyNotify, StructureNotifyMask, &destroy, &game);
 	mlx_loop(game.mlx_ptr);
 	return (0);

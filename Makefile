@@ -6,7 +6,7 @@
 #    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
-#    Updated: 2025/02/22 16:37:09 by camerico         ###   ########.fr        #
+#    Updated: 2025/02/24 17:28:39 by camerico         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ OBJ_DIR		=	obj/
 SRCS = main.c \
 	create_map.c \
 	mouvement.c \
+	parsing.c \
 
 HEADER = so_long.h
 
