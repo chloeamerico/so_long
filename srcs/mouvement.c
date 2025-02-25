@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 15:49:18 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:36:55 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ void	RIGHT(t_game *game)
 	if (prev_mvmt < game->nb_mvmt)
 	{
 		ft_printf("Number of mouvments : %d\n", game->nb_mvmt);
-		ft_printf("nb de collectible restant : %d\n", game->collectible_left);
 		prev_mvmt = game->nb_mvmt;
 	}
 	display_map(game, game->texture);
