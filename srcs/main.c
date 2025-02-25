@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 15:21:28 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:52:57 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int	main(int argc, char **argv)
 			width = (int) ft_strlen(game.map[height]) - 1;
 		height++;
 	}
+	if (check_wall(game.map, width, height) != 0)
+		return (0);
 //on cree la fenetre
 	game.win_ptr = mlx_new_window(game.mlx_ptr, width * 64, height * 64, "so_long"); //pour creer une fenetre
 	if (!game.win_ptr)

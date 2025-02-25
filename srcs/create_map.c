@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 14:53:51 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:41:26 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**load_map(char *filename)
 }
 
 // va associe a chaque char l'image correspondante
-void	put_image (t_game *game, char c, int x, int y, t_texture *texture)
+void	put_image(t_game *game, char c, int x, int y, t_texture *texture)
 {
 	void	*img;
 

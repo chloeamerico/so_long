@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 15:14:22 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:49:18 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void	UP(t_game *game)
 			return;
 		else
 		{
-			game->map[y][x] = '0';
-			game->map[y - 1][x] = 'P';
 			game->player_y = y - 1;
 			ft_printf("Congratulations, you've won\n");
 			destroy(game);
@@ -65,6 +63,17 @@ void	DOWN(t_game *game)
         return;
 	else if (game->map[y + 1][x] == 'C')
 		game->collectible_left--;
+	else if (game->map[y + 1][x] == 'E')
+	{
+		if (game->collectible_left != 0)
+			return;
+		else
+		{
+			game->player_y = y + 1;
+			ft_printf("Congratulations, you've won\n");
+			destroy(game);
+		}
+	}
 	game->map[y][x] = '0';
 	game->map[y + 1][x] = 'P';
 	game->player_y = y + 1;
@@ -83,6 +92,17 @@ void	LEFT(t_game *game)
         return;
 	if (game->map[y][x - 1] == 'C')
 		game->collectible_left--;
+	else if (game->map[y][x - 1] == 'E')
+	{
+		if (game->collectible_left != 0)
+			return;
+		else
+		{
+			game->player_y = x - 1;
+			ft_printf("Congratulations, you've won\n");
+			destroy(game);
+		}
+	}
 	game->map[y][x] = '0';
 	game->map[y][x - 1] = 'P';
 	game->player_x = x - 1;
@@ -101,6 +121,17 @@ void	RIGHT(t_game *game)
         return;
 	if (game->map[y][x + 1] == 'C')
 		game->collectible_left--;
+	else if (game->map[y][x + 1] == 'E')
+	{
+		if (game->collectible_left != 0)
+			return;
+		else
+		{
+			game->player_y = x + 1;
+			ft_printf("Congratulations, you've won\n");
+			destroy(game);
+		}
+	}
 	game->map[y][x] = '0';
 	game->map[y][x + 1] = 'P';
 	game->player_x = x + 1;
