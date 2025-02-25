@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/24 17:13:54 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:14:22 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,20 @@ void	UP(t_game *game)
 	
 	if (game->map[y - 1][x] == '1')
         return;
-	if (game->map[y - 1][x] == 'C')
-	{
+	else if (game->map[y - 1][x] == 'C')
 		game->collectible_left--;
+	else if (game->map[y - 1][x] == 'E')
+	{
+		if (game->collectible_left != 0)
+			return;
+		else
+		{
+			game->map[y][x] = '0';
+			game->map[y - 1][x] = 'P';
+			game->player_y = y - 1;
+			ft_printf("Congratulations, you've won\n");
+			destroy(game);
+		}
 	}
 	game->map[y][x] = '0';
 	game->map[y - 1][x] = 'P';
@@ -52,7 +63,7 @@ void	DOWN(t_game *game)
 	
 	if (game->map[y + 1][x] == '1')
         return;
-	if (game->map[y + 1][x] == 'C')
+	else if (game->map[y + 1][x] == 'C')
 		game->collectible_left--;
 	game->map[y][x] = '0';
 	game->map[y + 1][x] = 'P';
@@ -115,6 +126,7 @@ void	RIGHT(t_game *game)
 	if (prev_mvmt < game->nb_mvmt)
 	{
 		ft_printf("Number of mouvments : %d\n", game->nb_mvmt);
+		ft_printf("nb de collectible restant : %d\n", game->collectible_left);
 		prev_mvmt = game->nb_mvmt;
 	}
 	display_map(game, game->texture);

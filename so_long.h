@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:15:55 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/24 16:57:30 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:18:08 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	**load_map(char *filename);
 void	put_image (t_game *game, char c, int x, int y, t_texture *texture);
 void display_map(t_game *game, t_texture *texture);
 int	key_hook(int keysym, t_game *game);
+int	left_collecitble(char **map);
 
 /* ************************************************************************** */
 /* DEBUG                                                                      */

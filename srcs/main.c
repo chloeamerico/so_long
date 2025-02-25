@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/24 15:27:48 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:21:28 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ int	main(int argc, char **argv)
 		return (1);
 	load_sprites(&game, game.texture); // on charge les sprites
 	display_map(&game, game.texture); // on affiche la carte
-//on gere les evenements de clavier et fermeture de la fenetre;
+	//on gere les evenements de clavier et fermeture de la fenetre;
 	mlx_hook(game.win_ptr, KeyPress, KeyPressMask, key_hook, &game);
+	game.collectible_left = left_collecitble(game.map);
 	mlx_hook(game.win_ptr, DestroyNotify, StructureNotifyMask, &destroy, &game);
 	mlx_loop(game.mlx_ptr);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:15:10 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/24 17:26:19 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:30:09 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,45 @@
 
 
 // si possible, on change l'orientation du pacman
+
+
+//on compte le nombre de collectibles sur la map
+// void	left_collecitble(char **map, t_game *game)
+// {
+// 	int	y = 0; //pour passer de ligne en ligne
+// 	int	x; //pour parcourir tous les characteres de ma ligne
+
+// 	while (map[y])
+// 	{
+// 		x = 0;
+// 		while (map[x])
+// 		{
+// 			if (map[y][x] == 'C')
+// 				game->collectible_left++;
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// 	// ft_printf("nb de collectible restant : %d\n", game->collectible_left);
+// }
+
+int	left_collecitble(char **map)
+{
+	int	y = 0; //pour passer de ligne en ligne
+	int	x; //pour parcourir tous les characteres de ma ligne
+	int count = 0;
+
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == 'C')
+				count++;
+			x++;
+		}
+		y++;
+	}
+	ft_printf("count collectible : %d\n", count);
+	return(count);
+}
