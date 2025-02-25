@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 17:24:57 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:00:35 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int	destroy(t_game *game)
 {
 	int	i;
+	free_textures(game, game->texture);
 	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
 	mlx_destroy_display(game->mlx_ptr);
 	free(game->mlx_ptr);
@@ -29,6 +30,21 @@ int	destroy(t_game *game)
 	free(game->map);
 	exit (0);
 	return (0);
+}
+
+void	free_textures(t_game *game, t_texture *texture)
+{
+	if (texture->img_wall)
+		mlx_destroy_image(game->mlx_ptr, texture->img_wall);
+	if (texture->img_collectible)
+		mlx_destroy_image(game->mlx_ptr, texture->img_collectible);
+	if (texture->img_exit)
+		mlx_destroy_image(game->mlx_ptr, texture->img_exit);
+	if (texture->img_floor)
+		mlx_destroy_image(game->mlx_ptr, texture->img_floor);
+	if (texture->img_player)
+		mlx_destroy_image(game->mlx_ptr, texture->img_player);
+	free(texture);
 }
 
 int	main(int argc, char **argv)
@@ -56,6 +72,7 @@ int	main(int argc, char **argv)
 // determine la taille de la fenetre en fonction de la map;
 	width = 0;
 	height = 0;
+	game.nb_mvmt = 0;
 	while (game.map[height])
 	{
 		if ((int) ft_strlen(game.map[height]) > width)
@@ -65,6 +82,8 @@ int	main(int argc, char **argv)
 	if (check_wall(game.map, width, height) != 0)
 		return (0);
 	if (parsing_position_double(game.map) != 0)
+		return (0);
+	if (verif_size_screen(height, width, &game) != 0)
 		return (0);
 //on cree la fenetre
 	game.win_ptr = mlx_new_window(game.mlx_ptr, width * 64, height * 64, "so_long"); //pour creer une fenetre

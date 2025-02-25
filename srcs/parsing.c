@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:15:10 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 17:38:18 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:26:59 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,32 @@ int	parsing_position_double(char **map)
 	{
 		ft_printf("Error : the map is invalid");
 		return (1) ;
+	}
+	return (0);
+}
+
+int	verif_size_screen(int height, int width, t_game	*game)
+{
+	int	win_width; // la largeur que devrait faire notre map si elle s'affiche
+	int win_height; // la hauteur que devrait faire notre map si elle s'affiche
+	int max_width;
+	int	max_height;
+
+	win_width = width * 64;
+	win_height = height * 64;
+
+	// la fonction va recup la taille de l'ecran et la stocker dans max_width et max_height
+	mlx_get_screen_size(game->mlx_ptr, &max_width, &max_height);
+
+	if (win_width > max_width)
+	{
+		ft_printf("Error : map size too large to display\n");
+		return (1);
+	}
+	if (win_height > max_height)
+	{
+		ft_printf("Error : map size too large to display\n");
+		return (1);
 	}
 	return (0);
 }

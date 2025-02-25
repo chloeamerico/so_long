@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:15:55 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 17:22:54 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:39:18 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	key_hook(int keysym, t_game *game);
 int	left_collecitble(char **map);
 int check_wall(char **map, int width, int height);
 int	parsing_position_double(char **map);
+int	verif_size_screen(int height, int width, t_game	*game);
+void	free_textures(t_game *game, t_texture *texture);
 
 /* ************************************************************************** */
 /* DEBUG                                                                      */
