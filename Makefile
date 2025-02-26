@@ -6,7 +6,7 @@
 #    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
-#    Updated: 2025/02/24 17:28:39 by camerico         ###   ########.fr        #
+#    Updated: 2025/02/26 16:54:36 by camerico         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = main.c \
 	create_map.c \
 	mouvement.c \
 	parsing.c \
+	verif_elemt_map.c \
 
 HEADER = so_long.h
 

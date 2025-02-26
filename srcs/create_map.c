@@ -6,46 +6,58 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 19:04:56 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:19:09 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	load_sprites(t_game *game, t_texture *texture)
+static void	load_texture(t_game *game, void **img, char *path)
 {
 	int	width;
 	int	height;
 
 	width = 64;
 	height = 64;
-	texture->img_wall = mlx_xpm_file_to_image(game->mlx_ptr, "texture/mur.xpm", &width, &height);
-	texture->img_collectible = mlx_xpm_file_to_image(game->mlx_ptr, "texture/piece.xpm", &width, &height);
-	texture->img_exit = mlx_xpm_file_to_image(game->mlx_ptr, "texture/exit.xpm", &width, &height);
-	texture->img_floor = mlx_xpm_file_to_image(game->mlx_ptr, "texture/vide.xpm", &width, &height);
-	texture->img_player = mlx_xpm_file_to_image(game->mlx_ptr, "texture/pacman.xpm", &width, &height);
+	*img = mlx_xpm_file_to_image(game->mlx_ptr, path, &width, &height);
+	if (!img)
+	{
+		ft_printf("Error : failed to load texture: %s\n", path);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	load_sprites(t_game *game, t_texture *texture)
+{
+	load_texture(game, &texture->img_wall, "texture/mur.xpm");
+	load_texture(game, &texture->img_collectible, "texture/piece.xpm");
+	load_texture(game, &texture->img_exit, "texture/exit.xpm");
+	load_texture(game, &texture->img_floor, "texture/vide.xpm");
+	load_texture(game, &texture->img_player, "texture/pacman.xpm");
 }
 
 // ouvre le fichier, lit la map ligne par ligne, et la transforme en tableau
 char	**load_map(char *filename)
 {
-	int		fd;
-	char	**map; //tableau pour stocker la map
+	char	**map;
 	char	*line;
+	int		fd;
 	int		i;
 
-	fd = open(filename, O_RDONLY); //on ouvre le fichier en lecture seule
+	i = 0;
+	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
 		perror("Error opening map");
 		return (NULL);
 	}
-	map = malloc(sizeof(char *) * 100); // ici 100 lignes max mais voir comment ajuster
+	map = malloc(sizeof(char *) * 100);
 	if (!map)
 		return (NULL);
-	i = 0;
-	while((line = get_next_line(fd)))
+	line = "a";
+	while (line)
 	{
+		line = get_next_line(fd);
 		map[i] = line;
 		i++;
 	}
@@ -58,7 +70,11 @@ char	**load_map(char *filename)
 void	put_image(t_game *game, char c, int x, int y, t_texture *texture)
 {
 	void	*img;
+	int		w;
+	int		h;
 
+	w = x * 64;
+	h = y * 64;
 	img = NULL;
 	if (c == '1')
 		img = texture->img_wall;
@@ -70,24 +86,23 @@ void	put_image(t_game *game, char c, int x, int y, t_texture *texture)
 		img = texture->img_exit;
 	else if (c == 'P')
 		img = texture->img_player;
-	if (img) // si img n'est pas NULL on affiche l'image
-		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, img, x * 64, y * 64);
-	return;
+	if (img)
+		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, img, w, h);
+	return ;
 }
 
-
 // fonction pour afficher la map
-void display_map(t_game *game, t_texture *texture)
+void	display_map(t_game *game, t_texture *texture)
 {
-	int	x; //variables pour parcourir la map
+	int	x;
 	int	y;
 
 	mlx_clear_window(game->mlx_ptr, game->win_ptr);
-	y = 0; //commence a la premiere ligne
-	while (game->map[y]) //tant qu'il y a une ligne
+	y = 0;
+	while (game->map[y])
 	{
 		x = 0;
-		while (game->map[y][x] && game->map[y][x] != '\n') //tant qu'il y a un char et qu'il est != de '\n'
+		while (game->map[y][x] && game->map[y][x] != '\n')
 		{
 			if (game->map[y][x] == 'P')
 			{

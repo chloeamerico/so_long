@@ -6,29 +6,36 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 19:00:35 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:00:39 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// a utiliser quand une fenetre est fermee
 int	destroy(t_game *game)
 {
 	int	i;
-	free_textures(game, game->texture);
-	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
-	mlx_destroy_display(game->mlx_ptr);
-	free(game->mlx_ptr);
-// on libere la map	
-	i = 0;
-	while (game->map[i])
+	
+	if (game->texture)
+		free_textures(game, game->texture);
+	if (game->map)
 	{
-		free(game->map[i]);
-		i++;
+		i = 0;
+		while(game->map[i])
+			{
+				free(game->map[i]);
+				i++;
+			}
+		free(game->map);
 	}
-	free(game->map);
-	exit (0);
+	if (game->win_ptr)
+		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	if (game->mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx_ptr);
+		free(game->mlx_ptr);
+	}
+	exit(EXIT_SUCCESS);
 	return (0);
 }
 
@@ -47,57 +54,83 @@ void	free_textures(t_game *game, t_texture *texture)
 	free(texture);
 }
 
-int	main(int argc, char **argv)
+#include "so_long.h"
+
+int	init_and_load(t_game *game, int argc, char **argv)
 {
-	t_game	game;
-	// t_game	texture;
-	int width;
-	int	height;
-	
+	game->texture = NULL;
+	game->win_ptr = NULL;
+	game->nb_mvmt = 0;
+
 	if (argc != 2)
 	{
 		ft_printf("Error : too many arguments\n");
 		return (1);
 	}
-	game.mlx_ptr = mlx_init();
-	if (!game.mlx_ptr)
+	game->mlx_ptr = mlx_init();
+	if (!game->mlx_ptr)
 		return (1);
-// chargement de la map
-	game.map = load_map(argv[1]);
-	if(!game.map)
+	game->map = load_map(argv[1]);
+	if (!game->map)
 	{
 		ft_printf("Error : Failed to load map\n");
+		destroy(game);
 		return (1);
 	}
-// determine la taille de la fenetre en fonction de la map;
-	width = 0;
-	height = 0;
-	game.nb_mvmt = 0;
-	while (game.map[height])
+	return (0);
+}
+
+int	validate_map(t_game *game, int *width, int *height)
+{
+	*width = 0;
+	*height = 0;
+	while (game->map[*height])
 	{
-		if ((int) ft_strlen(game.map[height]) > width)
-			width = (int) ft_strlen(game.map[height]) - 1;
-		height++;
+		int len = (int)ft_strlen(game->map[*height]) - 1;
+		if (len > *width)
+			*width = len;
+		(*height)++;
 	}
-	if (check_wall(game.map, width, height) != 0)
-		return (0);
-	if (parsing_position_double(game.map) != 0)
-		return (0);
-	if (verif_size_screen(height, width, &game) != 0)
-		return (0);
-//on cree la fenetre
-	game.win_ptr = mlx_new_window(game.mlx_ptr, width * 64, height * 64, "so_long"); //pour creer une fenetre
-	if (!game.win_ptr)
+	if (parsing_elemts(game->map, *width, *height) != 0
+		|| verif_size_screen(*height, *width, game) != 0)
 	{
-		free(game.map);
+		destroy(game);
 		return (1);
 	}
-	game.texture = malloc(sizeof(t_texture));
-	if (!game.texture)
+	return (0);
+}
+
+int	setup_window_and_textures(t_game *game, int width, int height)
+{
+	game->win_ptr = mlx_new_window(game->mlx_ptr, width * 64, height * 64, "so_long");
+	if (!game->win_ptr)
+	{
+		destroy(game);
 		return (1);
-	load_sprites(&game, game.texture); // on charge les sprites
-	display_map(&game, game.texture); // on affiche la carte
-	//on gere les evenements de clavier et fermeture de la fenetre;
+	}
+	game->texture = malloc(sizeof(t_texture));
+	if (!game->texture)
+	{
+		destroy(game);
+		return (1);
+	}
+	load_sprites(game, game->texture);
+	display_map(game, game->texture);
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_game	game;
+	int		width;
+	int		height;
+
+	if (init_and_load(&game, argc, argv) != 0)
+		return (1);
+	if (validate_map(&game, &width, &height) != 0)
+		return (1);
+	if (setup_window_and_textures(&game, width, height) != 0)
+		return (1);
 	mlx_hook(game.win_ptr, KeyPress, KeyPressMask, key_hook, &game);
 	game.collectible_left = left_collecitble(game.map);
 	mlx_hook(game.win_ptr, DestroyNotify, StructureNotifyMask, &destroy, &game);

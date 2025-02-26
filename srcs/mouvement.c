@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/25 17:36:55 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:39:05 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,21 @@
 // 	return (0);
 // }
 
-void	UP(t_game *game)
+void	up(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = game->player_x;
 	y = game->player_y;
-	
 	if (game->map[y - 1][x] == '1')
-        return;
+		return ;
 	else if (game->map[y - 1][x] == 'C')
 		game->collectible_left--;
 	else if (game->map[y - 1][x] == 'E')
 	{
 		if (game->collectible_left != 0)
-			return;
+			return ;
 		else
 		{
 			game->player_y = y - 1;
@@ -51,22 +50,21 @@ void	UP(t_game *game)
 	game->nb_mvmt++;
 }
 
-void	DOWN(t_game *game)
+void	down(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = game->player_x;
 	y = game->player_y;
-	
 	if (game->map[y + 1][x] == '1')
-        return;
+		return ;
 	else if (game->map[y + 1][x] == 'C')
 		game->collectible_left--;
 	else if (game->map[y + 1][x] == 'E')
 	{
 		if (game->collectible_left != 0)
-			return;
+			return ;
 		else
 		{
 			game->player_y = y + 1;
@@ -80,22 +78,21 @@ void	DOWN(t_game *game)
 	game->nb_mvmt++;
 }
 
-void	LEFT(t_game *game)
+void	left(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = game->player_x;
 	y = game->player_y;
-	
 	if (game->map[y][x - 1] == '1')
-        return;
+		return ;
 	if (game->map[y][x - 1] == 'C')
 		game->collectible_left--;
 	else if (game->map[y][x - 1] == 'E')
 	{
 		if (game->collectible_left != 0)
-			return;
+			return ;
 		else
 		{
 			game->player_y = x - 1;
@@ -109,22 +106,21 @@ void	LEFT(t_game *game)
 	game->nb_mvmt++;
 }
 
-void	RIGHT(t_game *game)
+void	right(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = game->player_x;
 	y = game->player_y;
-	
 	if (game->map[y][x + 1] == '1')
-        return;
+		return ;
 	if (game->map[y][x + 1] == 'C')
 		game->collectible_left--;
 	else if (game->map[y][x + 1] == 'E')
 	{
 		if (game->collectible_left != 0)
-			return;
+			return ;
 		else
 		{
 			game->player_y = x + 1;
@@ -140,20 +136,20 @@ void	RIGHT(t_game *game)
 
 //associe une action a chaque touches pressees
 //keysym = identifiant de chaque touche du clavier
- int	key_hook(int keysym, t_game *game)
+int	key_hook(int keysym, t_game *game)
 {
 	static int	prev_mvmt = 0;
 
 	if (keysym == XK_Escape)
 		destroy(game);
 	else if (keysym == 'w' || keysym == 'W')
-		UP(game);
+		up(game);
 	else if (keysym == 's' || keysym == 'S')
-		DOWN(game);
+		down(game);
 	else if (keysym == 'a' || keysym == 'A')
-		LEFT(game);
+		left(game);
 	else if (keysym == 'd' || keysym == 'D')
-		RIGHT(game);
+		right(game);
 	if (prev_mvmt < game->nb_mvmt)
 	{
 		ft_printf("Number of mouvments : %d\n", game->nb_mvmt);
@@ -162,39 +158,3 @@ void	RIGHT(t_game *game)
 	display_map(game, game->texture);
 	return (0);
 }
-	
-	// 	if (case[x][y - 1] == SOL ou COLL)
-	// 		change_map(player, x, y - 1); // => game.map[x][y] = G && game.map[x][y - 1] = P
-	// if (keysym == DOWN)
-	// 	if (case[x][y + 1] == SOL ou COLL)
-	// 		change_map(player, x, y + 1); // => game.map[x][y] = G && game.map[x][y + 1] = P
-	// if (keysym == LEFT)
-	// 	if (case[x - 1][y] == SOL ou COLL)
-	// 		change_map(player, x - 1, y); // => game.map[x][y] = G && game.map[x - 1][y] = P
-	// if (keysym == UP)
-	// 	if (case[x + 1][y] == SOL ou COLL)
-	// 		change_map(player, x + 1, y); // => game.map[x][y] = G && game.map[x + 1][y] = P
-	// print_mouv(++game.mouv_num) // -> printf("Mouvement count : %d\r", game.mouv_num) 
-
-
-
-
-// int	keypressed(int keysym, t_game *game)
-// {
-// 	// if (keysym == UP)
-// 	// 	if (case[x][y - 1] == SOL ou COLL)
-// 	// 		change_map(player, x, y - 1); // => game.map[x][y] = G && game.map[x][y - 1] = P
-// 	// if (keysym == DOWN)
-// 	// 	if (case[x][y + 1] == SOL ou COLL)
-// 	// 		change_map(player, x, y + 1); // => game.map[x][y] = G && game.map[x][y + 1] = P
-// 	// if (keysym == LEFT)
-// 	// 	if (case[x - 1][y] == SOL ou COLL)
-// 	// 		change_map(player, x - 1, y); // => game.map[x][y] = G && game.map[x - 1][y] = P
-// 	// if (keysym == UP)
-// 	// 	if (case[x + 1][y] == SOL ou COLL)
-// 	// 		change_map(player, x + 1, y); // => game.map[x][y] = G && game.map[x + 1][y] = P
-// 	if (keysym == XK_Escape)
-// 		destroy(game);
-// 	// print_mouv(++game.mouv_num) // -> printf("Mouvement count : %d\r", game.mouv_num) 
-// 	return (0);
-// }
