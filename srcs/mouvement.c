@@ -6,21 +6,11 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/26 15:39:05 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:01:25 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-//keysym = identifiant de chaque touche du clavier
-//la fonction explique ce qui sera fait quand une touche sera pressee
-// int	ESC(int keysym, t_game *game)
-// {
-// 	printf("Pressed key : %d\n", keysym);
-// 	if (keysym == XK_Escape)
-// 		destroy(game);
-// 	return (0);
-// }
 
 void	up(t_game *game)
 {

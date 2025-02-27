@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 15:15:55 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/26 19:00:00 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:53:57 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,11 @@ typedef struct s_game
 /* ************************************************************************** */
 
 int	main(int argc, char **argv);
-int	ESC(int keysym, t_game *data);
 int	destroy(t_game *data);
 void	load_sprites(t_game *game, t_texture *texture);
 char	**load_map(char *filename);
-void	put_image (t_game *game, char c, int x, int y, t_texture *texture);
-void display_map(t_game *game, t_texture *texture);
+void	put_image (t_game *game, char c, int x, int y);
+void display_map(t_game *game);
 int	key_hook(int keysym, t_game *game);
 int	left_collecitble(char **map);
 int	verif_size_screen(int height, int width, t_game	*game);

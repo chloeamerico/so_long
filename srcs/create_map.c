@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/26 16:19:09 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:54:34 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	load_sprites(t_game *game, t_texture *texture)
 	load_texture(game, &texture->img_collectible, "texture/piece.xpm");
 	load_texture(game, &texture->img_exit, "texture/exit.xpm");
 	load_texture(game, &texture->img_floor, "texture/vide.xpm");
-	load_texture(game, &texture->img_player, "texture/pacman.xpm");
+	load_texture(game, &texture->img_player, "texture/pacman_jambes.xpm");
 }
 
 // ouvre le fichier, lit la map ligne par ligne, et la transforme en tableau
@@ -67,7 +67,7 @@ char	**load_map(char *filename)
 }
 
 // va associe a chaque char l'image correspondante
-void	put_image(t_game *game, char c, int x, int y, t_texture *texture)
+void	put_image(t_game *game, char c, int x, int y)
 {
 	void	*img;
 	int		w;
@@ -77,22 +77,22 @@ void	put_image(t_game *game, char c, int x, int y, t_texture *texture)
 	h = y * 64;
 	img = NULL;
 	if (c == '1')
-		img = texture->img_wall;
+		img = game->texture->img_wall;
 	else if (c == '0')
-		img = texture->img_floor;
+		img = game->texture->img_floor;
 	else if (c == 'C')
-		img = texture->img_collectible;
+		img = game->texture->img_collectible;
 	else if (c == 'E')
-		img = texture->img_exit;
+		img = game->texture->img_exit;
 	else if (c == 'P')
-		img = texture->img_player;
+		img = game->texture->img_player;
 	if (img)
 		mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, img, w, h);
 	return ;
 }
 
 // fonction pour afficher la map
-void	display_map(t_game *game, t_texture *texture)
+void	display_map(t_game *game)
 {
 	int	x;
 	int	y;
@@ -109,7 +109,7 @@ void	display_map(t_game *game, t_texture *texture)
 				game->player_x = x;
 				game->player_y = y;
 			}
-			put_image(game, game->map[y][x], x, y, texture);
+			put_image(game, game->map[y][x], x, y);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 #    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
-#    Updated: 2025/02/26 16:54:36 by camerico         ###   ########.fr        #
+#    Updated: 2025/02/26 19:09:38 by camerico         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS = main.c \
 	mouvement.c \
 	parsing.c \
 	verif_elemt_map.c \
+	destroy_and_free.c \
 
 HEADER = so_long.h
 
