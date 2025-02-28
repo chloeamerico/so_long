@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/27 14:59:30 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:41:53 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	init_and_load(t_game *game, int argc, char **argv)
 	game->mlx_ptr = mlx_init();
 	if (!game->mlx_ptr)
 		return (1);
+	if (ft_strcmp(ft_strrchr(argv[1], '.'), ".ber") != 0)
+		return (ft_printf("Error : doesn't finish with a '.ber'\n"), \
+			destroy(game), 1);
 	game->map = load_map(argv[1]);
 	if (!game->map)
 	{
@@ -48,12 +51,13 @@ int	validate_map(t_game *game, int *width, int *height)
 			*width = len;
 		(*height)++;
 	}
+	game->height = *height;
+	game->width = *width;
+	if (valid_path(game) == 1)
+		return (destroy(game), 1);
 	if (parsing_elemts(game->map, *width, *height) != 0
 		|| verif_size_screen(*height, *width, game) != 0)
-	{
-		destroy(game);
-		return (1);
-	}
+		return (destroy(game), 1);
 	return (0);
 }
 
@@ -64,20 +68,21 @@ int	setup_window_and_textures(t_game *game, int width, int height)
 
 	w = width * 64;
 	h = height * 64;
+	game->texture = ft_calloc(sizeof(t_texture), 100);
+	if (!game->texture)
+	{
+		destroy(game);
+		return (1);
+	}
+	if (load_sprites(game, game->texture) == 1)
+		return (destroy(game), 1);
 	game->win_ptr = mlx_new_window(game->mlx_ptr, w, h, "so_long");
 	if (!game->win_ptr)
 	{
 		destroy(game);
 		return (1);
 	}
-	game->texture = malloc(sizeof(t_texture));
-	if (!game->texture)
-	{
-		destroy(game);
-		return (1);
-	}
-	load_sprites(game, game->texture);
-	display_map(game, game->texture);
+	display_map(game);
 	return (0);
 }
 

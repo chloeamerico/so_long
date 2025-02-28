@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:35:59 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/27 15:01:25 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:32:29 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,6 @@ int	key_hook(int keysym, t_game *game)
 		ft_printf("Number of mouvments : %d\n", game->nb_mvmt);
 		prev_mvmt = game->nb_mvmt;
 	}
-	display_map(game, game->texture);
+	display_map(game);
 	return (0);
 }

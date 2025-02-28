@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 19:07:05 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/27 14:57:57 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:13:35 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,20 @@ void	free_textures(t_game *game, t_texture *texture)
 	if (texture->img_player)
 		mlx_destroy_image(game->mlx_ptr, texture->img_player);
 	free(texture);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+	
+	if (!map)
+		return;
+	
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }

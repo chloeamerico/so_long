@@ -6,14 +6,14 @@
 #    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
-#    Updated: 2025/02/26 19:09:38 by camerico         ###   ########.fr        #
+#    Updated: 2025/02/28 17:24:46 by camerico         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -Werror -g3 -I.
 
 # dossiers
 LIBFT_DIR 	=	libft/
@@ -27,6 +27,8 @@ SRCS = main.c \
 	parsing.c \
 	verif_elemt_map.c \
 	destroy_and_free.c \
+	flood_fill.c \
+	print_map.c
 
 HEADER = so_long.h
 
