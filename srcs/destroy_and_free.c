@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 19:07:05 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/28 14:13:35 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:06:36 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ void	free_textures(t_game *game, t_texture *texture)
 void	free_map(char **map)
 {
 	int	i;
-	
+
 	if (!map)
-		return;
-	
+		return ;
 	i = 0;
 	while (map[i])
 	{

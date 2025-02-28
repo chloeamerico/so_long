@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:15:10 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/26 17:38:35 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:30:34 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	verif_size_screen(int height, int width, t_game	*game)
 	win_width = width * 64;
 	win_height = height * 64;
 	mlx_get_screen_size(game->mlx_ptr, &max_width, &max_height);
-	if (win_width > max_width || width == height)
+	if (win_width > max_width)
 	{
 		ft_printf("Error : map size is incorrect\n");
 		return (1);

@@ -6,7 +6,7 @@
 #    By: camerico <camerico@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 15:15:24 by camerico          #+#    #+#              #
-#    Updated: 2025/02/28 17:24:46 by camerico         ###   ########.fr        #
+#    Updated: 2025/02/28 18:06:08 by camerico         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ SRCS = main.c \
 	verif_elemt_map.c \
 	destroy_and_free.c \
 	flood_fill.c \
-	print_map.c
 
 HEADER = so_long.h
 

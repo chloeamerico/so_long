@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:44:54 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/28 17:40:37 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:03:20 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int	parsing_double_pacman(char **map)
 		{
 			if (map[y][x] == 'P')
 				p++;
-			if (map[y][x] != '0' && map[y][x] != 'C' && map[y][x] != '1' 
+			if (map[y][x] != '0' && map[y][x] != 'C' && map[y][x] != '1'
 				&& map[y][x] != 'E' && map[y][x] != 'P' && map[y][x] != '\n')
-				return(ft_printf("Error : the map is invalid\n"), 1);
+				return (ft_printf("Error : the map is invalid\n"), 1);
 			x++;
 		}
 		y++;

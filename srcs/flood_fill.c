@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 18:40:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/28 17:57:31 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:02:58 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ void	find_initial_position(t_game *game)
 {
 	int	x;
 	int	y;
-	int	found = 0; //on pourra supprimer cette variable a la fin
+	int	found;
 
 	y = 0;
+	found = 0;
 	while (game->map[y])
 	{
 		x = 0;
@@ -34,30 +35,30 @@ void	find_initial_position(t_game *game)
 		}
 		y++;
 	}
-	if (!found) // on pourra suppr apres
+	if (!found)
 		ft_printf("Error: No starting position found in the map\n");
 }
 
 //creer une copie de la cap pour ne pas affecter l'initiale
-char **copy_map(char **map)
+char	**copy_map(char **map)
 {
 	char	**copy;
-	int	i; 				//i represente chaque colonne
-	int	map_size;
+	int		i;
+	int		map_size;
 
 	map_size = 0;
 	while (map[map_size])
 		map_size++;
-	copy = malloc(sizeof (char *) * (map_size + 1)); //+1 pour le pointeur NULL
+	copy = malloc(sizeof (char *) * (map_size + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;
 	while (i < map_size)
 	{
-		copy[i] = ft_strdup(map[i]); // on duplique une chaine de char
-		if (!copy[i]) //si ca a echoue, on libere les lignes deja allouees
+		copy[i] = ft_strdup(map[i]);
+		if (!copy[i])
 		{
-			while (i > 0)  // Libère les lignes déjà copiées
+			while (i > 0)
 				free(copy[--i]);
 			free(copy);
 			return (NULL);
@@ -80,28 +81,28 @@ void	flood_fill(char **map, int x, int y, t_game *game)
 		map[y][x] = 'V';
 		return ;
 	}
-	map[y][x] = 'V'; //on marque la case comme deja visitee;
-	flood_fill(map, x - 1, y, game); // aller a gauche
-	flood_fill(map, x + 1, y, game); // aller a droite
-	flood_fill(map, x, y - 1, game); // aller en haut;
-	flood_fill(map, x, y + 1, game); // aller en bas;
+	map[y][x] = 'V';
+	flood_fill(map, x - 1, y, game);
+	flood_fill(map, x + 1, y, game);
+	flood_fill(map, x, y - 1, game);
+	flood_fill(map, x, y + 1, game);
 }
 
 //la fonction qui verifie si le chemin est valide
 int	valid_path(t_game *game)
 {
 	char	**copy;
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 
-	copy = NULL; 		// voir si ca peut etre retire
+	copy = NULL;
 	copy = copy_map(game->map);
 	if (!copy)
 		return (ft_printf("Error: failed to copy map\n"), 1);
 	find_initial_position(game);
 	flood_fill(copy, game->player_x, game->player_y, game);
 	y = -1;
-	while (copy[++y])		// on va parcourir toute la map pour voir s'il reste des C ou E
+	while (copy[++y])
 	{
 		x = -1;
 		while (copy[y][++x])
@@ -115,7 +116,3 @@ int	valid_path(t_game *game)
 	}
 	return (free_map(copy), 0);
 }
-
-//verifier qu'il existe un chemin valide pour collecter tous les collectibles
-// et atteindre la sortie
-// fonction flood_fill

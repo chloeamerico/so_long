@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:21:40 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/28 17:33:39 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:27:39 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ static int	load_texture(t_game *game, void **img, char *path)
 {
 	int	width;
 	int	height;
-	int fd;
+	int	fd;
 
 	width = 64;
 	height = 64;
+	if (ft_strcmp(ft_strrchr(path, '.'), ".xpm") != 0)
+		return (ft_printf("Error : image file must be in .xpm\n"), 1);
 	*img = mlx_xpm_file_to_image(game->mlx_ptr, path, &width, &height);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -33,17 +35,17 @@ static int	load_texture(t_game *game, void **img, char *path)
 	return (0);
 }
 
-int	load_sprites(t_game *game, t_texture *texture)
+int	load_sprites(t_game *game, t_texture *txtr)
 {
-	if (load_texture(game, &texture->img_wall, "texture/mur.xpm") != 0)
+	if (load_texture(game, &txtr->img_wall, "texture/mur.xpm") != 0)
 		return (1);
-	if (load_texture(game, &texture->img_collectible, "texture/piece.xpm") != 0)
+	if (load_texture(game, &txtr->img_collectible, "texture/piece.xpm") != 0)
 		return (1);
-	if (load_texture(game, &texture->img_exit, "texture/exit.xpm") != 0)
+	if (load_texture(game, &txtr->img_exit, "texture/exit.xpm") != 0)
 		return (1);
-	if (load_texture(game, &texture->img_floor, "texture/vide.xpm") != 0)
+	if (load_texture(game, &txtr->img_floor, "texture/vide.xpm") != 0)
 		return (1);
-	if (load_texture(game, &texture->img_player, "texture/pacman_jambes.xpm") != 0)
+	if (load_texture(game, &txtr->img_player, "texture/pacman2.xpm") != 0)
 		return (1);
 	return (0);
 }

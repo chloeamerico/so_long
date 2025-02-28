@@ -6,7 +6,7 @@
 /*   By: camerico <camerico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:00:57 by camerico          #+#    #+#             */
-/*   Updated: 2025/02/28 17:41:53 by camerico         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:34:13 by camerico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	init_and_load(t_game *game, int argc, char **argv)
 	game->texture = NULL;
 	game->win_ptr = NULL;
 	game->nb_mvmt = 0;
+	game->map = NULL;
 	if (argc != 2)
 	{
 		ft_printf("Error : too many arguments\n");
@@ -86,12 +87,14 @@ int	setup_window_and_textures(t_game *game, int width, int height)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_game	game;
 	int		width;
 	int		height;
 
+	if (!envp || !*envp)
+		return (ft_printf("Error : There is no environment\n"), 1);
 	if (init_and_load(&game, argc, argv) != 0)
 		return (1);
 	if (validate_map(&game, &width, &height) != 0)
